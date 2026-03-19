@@ -1,817 +1,818 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Alliano — Senior Software Engineer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Alliano — Senior Software Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:    #0b0f14;
+  --bg1:   #0f1520;
+  --bg2:   #131d2a;
+  --bg3:   #1a2535;
+  --c0:    #1e2d3f;
+  --c1:    #2a3f56;
+  --nc:    #00d9ff;   /* primary cyan */
+  --ng:    #7ee787;   /* green */
+  --nw:    #e3b341;   /* yellow */
+  --nr:    #f78166;   /* red/orange */
+  --nb:    #5ba3e0;   /* blue */
+  --txt:   #c9d8e8;
+  --txt2:  #4a6a85;
+  --txt3:  #2e4a62;
+  --mono:  'JetBrains Mono', monospace;
+}
 
-  <style>
-    :root {
-      --bg:         #090c10;
-      --bg2:        #0d1117;
-      --bg3:        #131920;
-      --border:     #1e2d3d;
-      --text:       #c9d1d9;
-      --text-dim:   #5c7080;
-      --accent:     #00d9ff;
-      --accent2:    #7ee787;
-      --accent3:    #f78166;
-      --warn:       #e3b341;
-      --rust:       #de8f6e;
-      --java:       #ED8B00;
-      --font-mono:  'JetBrains Mono', monospace;
-      --font-display: 'Bebas Neue', sans-serif;
-      --font-serif: 'Crimson Pro', serif;
-    }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+::selection{background:var(--nc);color:#000}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--c1)}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:var(--mono);
+  font-size:13px;
+  line-height:1.7;
+  overflow-x:hidden;
+  cursor:none;
+}
 
-    ::selection { background: var(--accent); color: #000; }
+/* ── CURSOR ── */
+#cur{
+  position:fixed;width:10px;height:10px;border-radius:50%;
+  background:var(--nc);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 10px var(--nc),0 0 24px rgba(0,217,255,.35);
+  transition:transform .1s,background .15s;
+}
+#cur2{
+  position:fixed;width:32px;height:32px;
+  border:1px solid rgba(0,217,255,.3);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+}
 
-    html { scroll-behavior: smooth; }
+/* ── NODE CANVAS ── */
+#nc{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-mono);
-      font-size: 14px;
-      line-height: 1.7;
-      overflow-x: hidden;
-      cursor: none;
-    }
+/* ── CONTENT LAYER ── */
+#page{position:relative;z-index:1}
 
-    /* ── Custom Cursor ─────────────────────────────── */
-    .cursor {
-      position: fixed;
-      width: 12px; height: 12px;
-      background: var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.08s ease, opacity 0.2s;
-      mix-blend-mode: screen;
-    }
-    .cursor-ring {
-      position: fixed;
-      width: 36px; height: 36px;
-      border: 1px solid rgba(0,217,255,0.4);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.18s ease;
-    }
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;align-items:center;
+  padding:100px 56px 72px;
+}
 
-    /* ── Noise overlay ─────────────────────────────── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      background-size: 180px 180px;
-      opacity: 0.35;
-      pointer-events: none;
-      z-index: 0;
-    }
+.prompt-bar{
+  display:flex;align-items:center;gap:0;
+  font-size:13px;margin-bottom:36px;
+  animation:up .5s ease both;
+}
+.p-user{color:var(--ng)}
+.p-at  {color:var(--txt2)}
+.p-host{color:var(--nb)}
+.p-col {color:var(--txt2)}
+.p-path{color:var(--nw)}
+.p-sym {color:var(--nc);margin:0 8px}
+.p-cmd {color:var(--txt)}
+.p-arg {color:var(--nw);margin-left:8px}
 
-    /* ── Grid lines ────────────────────────────────── */
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(rgba(0,217,255,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0,217,255,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      z-index: 0;
-    }
+.hero-name{
+  font-size:clamp(48px,9vw,100px);
+  font-weight:700;line-height:.92;letter-spacing:-1px;
+  color:#fff;
+  animation:up .6s ease .06s both;
+}
+.hero-name .hash{color:var(--nc);text-shadow:0 0 28px rgba(0,217,255,.45)}
 
-    /* ── Layout ────────────────────────────────────── */
-    main { position: relative; z-index: 1; }
+.hero-role{
+  font-size:clamp(14px,2vw,18px);font-weight:300;font-style:italic;
+  color:var(--txt2);margin-top:14px;letter-spacing:.5px;
+  animation:up .6s ease .12s both;
+}
+.hero-role span{color:var(--nc);font-style:normal;font-weight:700}
 
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+.hero-divider{
+  width:140px;height:1px;margin:28px 0;
+  background:linear-gradient(90deg,var(--nc),rgba(0,217,255,.15),transparent);
+  animation:up .5s ease .16s both;
+}
 
-    /* ── Header / Hero ─────────────────────────────── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 80px 0 60px;
-    }
+.hero-bio{
+  max-width:520px;color:var(--txt2);font-size:13px;line-height:1.9;
+  border-left:2px solid var(--c0);padding-left:16px;
+  animation:up .5s ease .2s both;
+}
+.hero-bio strong{color:var(--txt)}
 
-    .hero-inner {
-      width: 100%;
-    }
+.hero-meta{
+  display:flex;gap:24px;flex-wrap:wrap;
+  margin-top:28px;animation:up .5s ease .24s both;
+}
+.meta-item{
+  display:flex;align-items:center;gap:7px;
+  font-size:12px;color:var(--txt2);
+}
+.meta-item .dot{color:var(--ng)}
 
-    .prompt-line {
-      color: var(--text-dim);
-      font-size: 12px;
-      margin-bottom: 32px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      animation: fadeIn 0.6s ease both;
-    }
-    .prompt-line .host { color: var(--accent2); }
-    .prompt-line .path { color: var(--accent); }
-    .prompt-line .cmd  { color: var(--text); }
+.hero-btns{
+  display:flex;gap:12px;flex-wrap:wrap;
+  margin-top:36px;animation:up .5s ease .3s both;
+}
+.btn{
+  font-family:var(--mono);font-size:12px;font-weight:700;
+  padding:9px 22px;text-decoration:none;cursor:none;
+  letter-spacing:.5px;transition:all .2s;
+  display:inline-flex;align-items:center;gap:7px;
+  border-radius:3px;
+}
+.btn-p{
+  background:var(--nc);color:#000;
+  box-shadow:0 0 20px rgba(0,217,255,.25);
+}
+.btn-p:hover{background:#fff;box-shadow:0 0 32px rgba(0,217,255,.5);transform:translateY(-2px)}
+.btn-s{
+  background:rgba(0,217,255,.06);color:var(--nc);
+  border:1px solid rgba(0,217,255,.2);
+}
+.btn-s:hover{background:rgba(0,217,255,.12);border-color:var(--nc);transform:translateY(-2px);box-shadow:0 0 16px rgba(0,217,255,.2)}
 
-    .hero-name {
-      font-family: var(--font-display);
-      font-size: clamp(72px, 12vw, 140px);
-      line-height: 0.9;
-      letter-spacing: 2px;
-      color: #fff;
-      animation: slideUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.1s both;
-      position: relative;
-      display: inline-block;
-    }
-    .hero-name .name-accent {
-      color: transparent;
-      -webkit-text-stroke: 1px var(--accent);
-    }
-    .hero-name .cursor-blink {
-      display: inline-block;
-      width: 6px;
-      height: 0.85em;
-      background: var(--accent);
-      margin-left: 4px;
-      vertical-align: middle;
-      animation: blink 1s step-end infinite;
-    }
+/* ── SECTION ── */
+section{
+  padding:80px 56px;
+  border-top:1px solid var(--c0);
+}
 
-    .hero-role {
-      font-family: var(--font-serif);
-      font-size: clamp(18px, 3vw, 26px);
-      font-weight: 300;
-      font-style: italic;
-      color: var(--text-dim);
-      margin-top: 16px;
-      animation: slideUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s both;
-    }
-    .hero-role span { color: var(--accent); font-style: normal; font-weight: 600; }
+.sec-head{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:44px;
+}
+.sec-num{
+  font-size:10px;font-weight:700;
+  color:var(--nc);letter-spacing:3px;
+}
+.sec-title{
+  font-size:clamp(18px,3vw,28px);font-weight:700;
+  color:#fff;letter-spacing:1px;
+}
+.sec-line{
+  flex:1;height:1px;
+  background:linear-gradient(90deg,var(--c0),transparent);
+}
 
-    .hero-bio {
-      max-width: 540px;
-      color: var(--text-dim);
-      font-size: 13px;
-      margin-top: 24px;
-      border-left: 2px solid var(--border);
-      padding-left: 16px;
-      animation: slideUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.3s both;
-    }
+/* ── TERMINAL WINDOW ── */
+.term-win{
+  border:1px solid var(--c0);
+  background:rgba(10,16,26,.85);
+  backdrop-filter:blur(12px);
+  border-radius:4px;overflow:hidden;
+}
+.term-bar{
+  background:var(--bg3);border-bottom:1px solid var(--c0);
+  padding:9px 16px;display:flex;align-items:center;gap:8px;
+}
+.t-dot{width:10px;height:10px;border-radius:50%}
+.t-dot.r{background:#ff5f56} .t-dot.y{background:#ffbd2e} .t-dot.g{background:#27c93f}
+.term-ttl{flex:1;text-align:center;font-size:11px;color:var(--txt2);letter-spacing:.5px}
+.term-body{padding:22px 26px}
 
-    .hero-meta {
-      display: flex;
-      gap: 24px;
-      margin-top: 32px;
-      flex-wrap: wrap;
-      animation: slideUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s both;
-    }
-    .meta-item {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12px; color: var(--text-dim);
-    }
-    .meta-item .dot { color: var(--accent2); }
+/* Syntax */
+.t-prompt{color:var(--ng)}
+.t-cmd   {color:var(--txt)}
+.t-file  {color:var(--nw)}
+.t-kw    {color:#c792ea}
+.t-ty    {color:var(--nb)}
+.t-st    {color:var(--nw)}
+.t-fn    {color:#82b1ff}
+.t-cm    {color:var(--txt2);font-style:italic}
+.t-nb    {color:var(--nc)}
+.t-op    {color:var(--txt2)}
+.t-ln    {color:var(--c1);user-select:none;display:inline-block;width:26px;text-align:right;margin-right:16px;font-size:11px}
+.t-out   {color:var(--txt2);padding-left:4px;margin-top:6px}
+.t-str   {color:var(--ng);padding:4px 0;display:block}
 
-    .hero-cta {
-      display: flex; gap: 12px; margin-top: 40px; flex-wrap: wrap;
-      animation: slideUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.5s both;
-    }
-    .btn {
-      padding: 10px 22px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      border: none;
-      cursor: none;
-      text-decoration: none;
-      transition: all 0.2s;
-      display: inline-flex; align-items: center; gap: 8px;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #000;
-    }
-    .btn-primary:hover { background: #fff; transform: translateY(-2px); }
-    .btn-secondary {
-      background: transparent;
-      color: var(--accent);
-      border: 1px solid var(--border);
-    }
-    .btn-secondary:hover { border-color: var(--accent); background: rgba(0,217,255,0.05); transform: translateY(-2px); }
+/* ── TECH GRID ── */
+.tech-section-label{
+  font-size:11px;color:var(--txt2);letter-spacing:2px;
+  margin:28px 0 12px;display:flex;align-items:center;gap:8px;
+}
+.tech-section-label::after{content:'';flex:1;height:1px;background:var(--c0)}
 
-    .hero-scroll {
-      position: absolute;
-      bottom: 40px; right: 24px;
-      color: var(--text-dim);
-      font-size: 11px;
-      writing-mode: vertical-rl;
-      letter-spacing: 2px;
-      display: flex; align-items: center; gap: 10px;
-      animation: fadeIn 1s ease 1s both;
-    }
-    .hero-scroll::after {
-      content: '';
-      width: 1px; height: 60px;
-      background: linear-gradient(to bottom, var(--accent), transparent);
-    }
+.tech-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+  gap:1px;background:var(--c0);
+  border:1px solid var(--c0);
+}
+.tech-cell{
+  background:var(--bg1);padding:18px 16px;
+  position:relative;overflow:hidden;
+  transition:background .2s;cursor:none;
+}
+.tech-cell:hover{background:var(--bg2)}
+.tech-cell:hover .tc-accent{transform:scaleX(1)}
+.tc-accent{
+  position:absolute;bottom:0;left:0;right:0;height:2px;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .3s ease;
+}
+.tc-icon{font-size:18px;margin-bottom:8px}
+.tc-name{font-size:12px;font-weight:700;color:#fff}
+.tc-cat {font-size:10px;color:var(--txt2);letter-spacing:.5px;margin-top:2px}
 
-    /* ── Section Header ────────────────────────────── */
-    .section { padding: 80px 0; border-top: 1px solid var(--border); }
+/* ── FOCUS CARDS ── */
+.focus-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:14px;
+}
+.focus-card{
+  border:1px solid var(--c0);
+  background:rgba(10,16,26,.7);
+  backdrop-filter:blur(8px);
+  padding:22px;border-radius:4px;
+  position:relative;overflow:hidden;
+  transition:border-color .25s,transform .25s,box-shadow .25s;cursor:none;
+}
+.focus-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--nc),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.focus-card:hover{border-color:rgba(0,217,255,.3);transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,217,255,.08)}
+.focus-card:hover::before{opacity:1}
+.fc-dir{font-size:10px;color:var(--ng);margin-bottom:8px;letter-spacing:.5px}
+.fc-name{font-size:14px;font-weight:700;color:#fff}
+.fc-desc{font-size:12px;color:var(--txt2);margin-top:8px;line-height:1.7}
+.fc-tag{
+  display:inline-block;font-size:10px;
+  padding:2px 10px;border:1px solid var(--c0);
+  color:var(--nc);margin-top:14px;border-radius:3px;
+  background:rgba(0,217,255,.05);
+}
 
-    .section-header {
-      display: flex; align-items: center; gap: 16px;
-      margin-bottom: 48px;
-    }
-    .section-num {
-      font-size: 11px;
-      color: var(--accent);
-      letter-spacing: 2px;
-      font-weight: 700;
-    }
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(28px, 5vw, 44px);
-      letter-spacing: 2px;
-      color: #fff;
-      line-height: 1;
-    }
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(to right, var(--border), transparent);
-    }
+/* ── QUOTE ── */
+.quote-block{
+  border:1px solid var(--c0);
+  background:rgba(10,16,26,.75);
+  backdrop-filter:blur(12px);
+  padding:36px 40px;
+  position:relative;overflow:hidden;
+}
+.quote-block::before{
+  content:'"';
+  position:absolute;top:-20px;left:20px;
+  font-size:120px;line-height:1;
+  color:var(--nc);opacity:.07;
+  font-family:serif;
+}
+.quote-block blockquote{
+  font-size:clamp(15px,2vw,20px);
+  color:#fff;line-height:1.6;
+}
+.quote-block blockquote strong{color:var(--nc)}
+.quote-block cite{
+  display:block;margin-top:14px;
+  font-size:11px;color:var(--txt2);letter-spacing:2px;
+}
 
-    /* ── Terminal Window ───────────────────────────── */
-    .terminal {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .terminal-bar {
-      background: var(--bg3);
-      padding: 10px 16px;
-      display: flex; align-items: center; gap: 8px;
-      border-bottom: 1px solid var(--border);
-    }
-    .dot-red   { width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; }
-    .dot-yellow{ width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e; }
-    .dot-green { width: 10px; height: 10px; border-radius: 50%; background: #27c93f; }
-    .terminal-title { flex: 1; text-align: center; font-size: 11px; color: var(--text-dim); }
-    .terminal-body { padding: 20px 24px; }
-    .t-line { display: flex; gap: 8px; margin-bottom: 8px; font-size: 13px; }
-    .t-prompt { color: var(--accent2); flex-shrink: 0; }
-    .t-cmd { color: var(--text); }
-    .t-out { color: var(--text-dim); padding-left: 16px; margin-bottom: 6px; }
-    .t-key { color: var(--accent); }
-    .t-val { color: var(--accent2); }
-    .t-str { color: var(--warn); }
-    .t-comment { color: var(--text-dim); font-style: italic; }
+/* ── CONNECT ── */
+.connect-list{
+  display:flex;flex-direction:column;gap:1px;
+  background:var(--c0);border:1px solid var(--c0);
+  border-radius:4px;overflow:hidden;
+}
+.connect-row{
+  display:flex;align-items:center;gap:16px;
+  background:var(--bg1);padding:16px 20px;
+  text-decoration:none;color:var(--txt2);
+  transition:background .2s,color .2s;cursor:none;
+  position:relative;
+}
+.connect-row:hover{background:var(--bg2);color:var(--txt)}
+.connect-row:hover .cr-icon{text-shadow:0 0 16px var(--nc)}
+.connect-row:hover .cr-handle{color:var(--nc)}
+.connect-row:hover .cr-arrow{opacity:1;transform:translateX(0)}
+.cr-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0;transition:text-shadow .2s}
+.cr-platform{font-size:10px;letter-spacing:1.5px;color:var(--txt3)}
+.cr-handle{font-size:13px;font-weight:700;color:var(--txt);transition:color .2s}
+.cr-handle-wrap{flex:1}
+.cr-arrow{
+  position:absolute;right:20px;
+  opacity:0;transform:translateX(-6px);
+  color:var(--nc);font-size:14px;
+  transition:all .2s;
+}
 
-    /* ── Tech Stack Grid ───────────────────────────── */
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-      margin-top: 0;
-    }
-    .tech-item {
-      background: var(--bg2);
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.2s;
-    }
-    .tech-item:hover { background: var(--bg3); }
-    .tech-item::before {
-      content: '';
-      position: absolute; top: 0; left: 0;
-      width: 100%; height: 2px;
-      background: var(--item-color, var(--accent));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
-    }
-    .tech-item:hover::before { transform: scaleX(1); }
-    .tech-item .t-icon { font-size: 20px; margin-bottom: 8px; }
-    .tech-item .t-name { font-size: 13px; font-weight: 700; color: #fff; }
-    .tech-item .t-cat  { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--c0);
+  padding:26px 56px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+  font-size:11px;color:var(--txt2);
+  background:rgba(11,15,20,.95);
+}
+.f-status{display:flex;align-items:center;gap:8px}
+.f-dot{width:6px;height:6px;border-radius:50%;background:var(--ng);box-shadow:0 0 6px var(--ng);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
 
-    .tech-category {
-      font-size: 11px;
-      color: var(--text-dim);
-      letter-spacing: 2px;
-      margin: 28px 0 12px;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .tech-category::after {
-      content: '';
-      flex: 1; height: 1px;
-      background: var(--border);
-    }
+/* ── ANIMATIONS ── */
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.obs{opacity:0;transform:translateY(18px);transition:opacity .65s ease,transform .65s ease}
+.obs.v{opacity:1;transform:none}
 
-    /* ── Focus Cards ───────────────────────────────── */
-    .focus-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 16px;
-    }
-    .focus-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .focus-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-    .focus-card .fc-dir { font-size: 11px; color: var(--accent2); margin-bottom: 6px; }
-    .focus-card .fc-name { font-size: 15px; font-weight: 700; color: #fff; }
-    .focus-card .fc-desc { font-size: 12px; color: var(--text-dim); margin-top: 8px; }
-    .focus-card .fc-tag {
-      display: inline-block;
-      font-size: 10px;
-      padding: 2px 8px;
-      background: rgba(0,217,255,0.08);
-      border: 1px solid var(--border);
-      color: var(--accent);
-      margin-top: 14px;
-    }
-
-    /* ── Connect Section ───────────────────────────── */
-    .connect-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 1px;
-      background: var(--border);
-      border: 1px solid var(--border);
-    }
-    .connect-item {
-      background: var(--bg2);
-      padding: 28px 24px;
-      display: flex; align-items: center; gap: 16px;
-      text-decoration: none;
-      color: var(--text);
-      transition: background 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .connect-item:hover { background: var(--bg3); }
-    .connect-item:hover .ci-arrow { opacity: 1; transform: translate(0,0); }
-    .connect-item .ci-icon { font-size: 22px; flex-shrink: 0; }
-    .connect-item .ci-label { font-size: 11px; color: var(--text-dim); }
-    .connect-item .ci-value { font-size: 13px; color: #fff; font-weight: 700; }
-    .ci-arrow {
-      position: absolute; right: 20px; top: 50%;
-      transform: translate(-4px, -50%);
-      color: var(--accent);
-      font-size: 16px;
-      opacity: 0;
-      transition: all 0.2s;
-    }
-
-    /* ── Quote ─────────────────────────────────────── */
-    .quote-block {
-      border: 1px solid var(--border);
-      padding: 40px;
-      text-align: center;
-      position: relative;
-      background: var(--bg2);
-    }
-    .quote-block::before {
-      content: '"';
-      font-family: var(--font-display);
-      font-size: 120px;
-      line-height: 1;
-      color: var(--accent);
-      opacity: 0.1;
-      position: absolute;
-      top: -20px; left: 24px;
-    }
-    .quote-block blockquote {
-      font-family: var(--font-serif);
-      font-size: clamp(18px, 2.5vw, 26px);
-      font-style: italic;
-      color: #fff;
-      font-weight: 300;
-      max-width: 600px;
-      margin: 0 auto;
-      line-height: 1.5;
-    }
-    .quote-attr {
-      margin-top: 16px;
-      font-size: 11px;
-      color: var(--text-dim);
-      letter-spacing: 2px;
-    }
-
-    /* ── Footer ────────────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 0;
-      text-align: center;
-      font-size: 11px;
-      color: var(--text-dim);
-      position: relative; z-index: 1;
-    }
-    footer span { color: var(--accent2); }
-
-    /* ── Animations ────────────────────────────────── */
-    @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes blink { 0%,100% { opacity: 1 } 50% { opacity: 0 } }
-    @keyframes scan {
-      0%   { transform: translateY(-100%); }
-      100% { transform: translateY(100vh); }
-    }
-    .scanline {
-      position: fixed; top: 0; left: 0;
-      width: 100%; height: 3px;
-      background: linear-gradient(transparent, rgba(0,217,255,0.06), transparent);
-      z-index: 10;
-      animation: scan 8s linear infinite;
-      pointer-events: none;
-    }
-
-    /* ── Observe Fade ──────────────────────────────── */
-    .obs { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .obs.visible { opacity: 1; transform: translateY(0); }
-
-    /* ── Responsive ────────────────────────────────── */
-    @media (max-width: 600px) {
-      .hero { min-height: 90vh; padding: 60px 0 40px; }
-      .section { padding: 60px 0; }
-      .tech-grid { grid-template-columns: repeat(2, 1fr); }
-      .connect-grid { grid-template-columns: 1fr 1fr; }
-      .quote-block { padding: 28px 20px; }
-    }
-  </style>
+@media(max-width:640px){
+  .hero,section,footer{padding-left:20px;padding-right:20px}
+  .hero{padding-top:80px}
+  .tech-grid{grid-template-columns:repeat(2,1fr)}
+  .focus-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
 
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-  <div class="scanline"></div>
+<div id="cur"></div>
+<div id="cur2"></div>
+<canvas id="nc"></canvas>
 
-  <main>
-    <!-- ── HERO ─────────────────────────────────────── -->
-    <section class="hero" style="position:relative;">
-      <div class="container">
-        <div class="hero-inner">
+<div id="page">
 
-          <div class="prompt-line">
-            <span class="host">alliano</span>
-            <span style="color:var(--text-dim)">@</span>
-            <span class="host">kolosal-ai</span>
-            <span style="color:var(--text-dim)">:</span>
-            <span class="path">~/home</span>
-            <span style="color:var(--text-dim)">$</span>
-            <span class="cmd">whoami</span>
-          </div>
-
-          <h1 class="hero-name">
-            ALL<span class="name-accent">IANO</span><span class="cursor-blink"></span>
-          </h1>
-
-          <p class="hero-role">
-            Senior Software Engineer &amp; <span>Linux Enthusiast</span>
-          </p>
-
-          <p class="hero-bio">
-            Building high-performance systems from Indonesia 🇮🇩.<br>
-            Passionate about clean architecture, open source, and backend engineering.
-            Currently shipping at <strong style="color:#fff">Kolosal AI</strong>.
-          </p>
-
-          <div class="hero-meta">
-            <div class="meta-item"><span class="dot">▸</span> Indonesia 🇮🇩</div>
-            <div class="meta-item"><span class="dot">▸</span> Linux 🐧</div>
-            <div class="meta-item"><span class="dot">▸</span> Kolosal AI</div>
-            <div class="meta-item"><span class="dot">▸</span> 99 Repos · 31 Followers</div>
-          </div>
-
-          <div class="hero-cta">
-            <a href="https://github.com/alliano" target="_blank" class="btn btn-primary">
-              ⌥ GitHub Profile
-            </a>
-            <a href="https://www.linkedin.com/in/abdillah-kim-a97393225" target="_blank" class="btn btn-secondary">
-              ⌦ LinkedIn
-            </a>
-            <a href="mailto:software.engginer.aliano@gmail.com" class="btn btn-secondary">
-              ✉ Email Me
-            </a>
-          </div>
-
-        </div>
-      </div>
-      <div class="hero-scroll">scroll</div>
-    </section>
-
-    <!-- ── ABOUT / TERMINAL ──────────────────────────── -->
-    <section class="section obs">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-num">01</span>
-          <h2 class="section-title">ABOUT</h2>
-          <div class="section-line"></div>
-        </div>
-
-        <div class="terminal">
-          <div class="terminal-bar">
-            <div class="dot-red"></div>
-            <div class="dot-yellow"></div>
-            <div class="dot-green"></div>
-            <div class="terminal-title">alliano — zsh — 80×24</div>
-          </div>
-          <div class="terminal-body">
-            <div class="t-line">
-              <span class="t-prompt">❯</span>
-              <span class="t-cmd">cat developer.rs</span>
-            </div>
-            <div style="margin:12px 0 20px; padding-left:16px; font-size:13px; line-height:1.9;">
-<pre style="font-family:var(--font-mono);white-space:pre-wrap;"><span style="color:#c678dd">struct</span> <span style="color:var(--accent)">Developer</span> {
-    <span class="t-key">name</span>:     <span class="t-str">"Alliano"</span>,        <span class="t-comment">// Abdillah Kim</span>
-    <span class="t-key">role</span>:     <span class="t-str">"Senior Software Engineer"</span>,
-    <span class="t-key">company</span>: <span class="t-str">"Kolosal AI"</span>,
-    <span class="t-key">location</span>:<span class="t-str">"Indonesia 🇮🇩"</span>,
-    <span class="t-key">os</span>:      <span class="t-str">"Linux 🐧"</span>,
-    <span class="t-key">passion</span>: <span style="color:#c678dd">vec!</span>[
-        <span class="t-str">"Clean Architecture"</span>,
-        <span class="t-str">"High Performance Systems"</span>,
-        <span class="t-str">"Open Source"</span>,
-        <span class="t-str">"Backend Engineering"</span>,
-    ],
-}</pre>
-            </div>
-            <div class="t-line">
-              <span class="t-prompt">❯</span>
-              <span class="t-cmd">echo $PHILOSOPHY</span>
-            </div>
-            <div class="t-out" style="color:var(--accent2);margin-top:4px;">
-              "First, solve the problem. Then, write the code."
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── TECH STACK ────────────────────────────────── -->
-    <section class="section obs">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-num">02</span>
-          <h2 class="section-title">TECH STACK</h2>
-          <div class="section-line"></div>
-        </div>
-
-        <div class="tech-category">⚙️ &nbsp;BACKEND</div>
-        <div class="tech-grid">
-          <div class="tech-item" style="--item-color:#de8f6e">
-            <div class="t-icon">🦀</div>
-            <div class="t-name">Rust</div>
-            <div class="t-cat">Systems Language</div>
-          </div>
-          <div class="tech-item" style="--item-color:#ED8B00">
-            <div class="t-icon">☕</div>
-            <div class="t-name">Java</div>
-            <div class="t-cat">Enterprise</div>
-          </div>
-          <div class="tech-item" style="--item-color:#6DB33F">
-            <div class="t-icon">🍃</div>
-            <div class="t-name">Spring Boot</div>
-            <div class="t-cat">Java Framework</div>
-          </div>
-          <div class="tech-item" style="--item-color:#de8f6e">
-            <div class="t-icon">⚡</div>
-            <div class="t-name">Axum</div>
-            <div class="t-cat">Rust Web Framework</div>
-          </div>
-        </div>
-
-        <div class="tech-category" style="margin-top:28px;">🌐 &nbsp;FRONTEND</div>
-        <div class="tech-grid">
-          <div class="tech-item" style="--item-color:#000">
-            <div class="t-icon">▲</div>
-            <div class="t-name">Next.js</div>
-            <div class="t-cat">React Framework</div>
-          </div>
-          <div class="tech-item" style="--item-color:#3178C6">
-            <div class="t-icon">𝑇𝑆</div>
-            <div class="t-name">TypeScript</div>
-            <div class="t-cat">Typed JavaScript</div>
-          </div>
-          <div class="tech-item" style="--item-color:#61DAFB">
-            <div class="t-icon">⚛</div>
-            <div class="t-name">React</div>
-            <div class="t-cat">UI Library</div>
-          </div>
-          <div class="tech-item" style="--item-color:#38BDF8">
-            <div class="t-icon">🌊</div>
-            <div class="t-name">Tailwind CSS</div>
-            <div class="t-cat">Utility-first CSS</div>
-          </div>
-        </div>
-
-        <div class="tech-category" style="margin-top:28px;">🗄️ &nbsp;DATA &amp; INFRA</div>
-        <div class="tech-grid">
-          <div class="tech-item" style="--item-color:#336791">
-            <div class="t-icon">🐘</div>
-            <div class="t-name">PostgreSQL</div>
-            <div class="t-cat">Relational DB</div>
-          </div>
-          <div class="tech-item" style="--item-color:#005C84">
-            <div class="t-icon">🐬</div>
-            <div class="t-name">MySQL</div>
-            <div class="t-cat">Relational DB</div>
-          </div>
-          <div class="tech-item" style="--item-color:#DC382D">
-            <div class="t-icon">⚡</div>
-            <div class="t-name">Redis</div>
-            <div class="t-cat">In-memory Cache</div>
-          </div>
-          <div class="tech-item" style="--item-color:#2CA5E0">
-            <div class="t-icon">🐳</div>
-            <div class="t-name">Docker</div>
-            <div class="t-cat">Containerization</div>
-          </div>
-        </div>
-
-        <div class="tech-category" style="margin-top:28px;">🛠️ &nbsp;TOOLS</div>
-        <div class="tech-grid">
-          <div class="tech-item" style="--item-color:#FCC624">
-            <div class="t-icon">🐧</div>
-            <div class="t-name">Linux</div>
-            <div class="t-cat">Daily Driver OS</div>
-          </div>
-          <div class="tech-item" style="--item-color:#F05032">
-            <div class="t-icon">⌥</div>
-            <div class="t-name">Git</div>
-            <div class="t-cat">Version Control</div>
-          </div>
-          <div class="tech-item" style="--item-color:#57A143">
-            <div class="t-icon">💚</div>
-            <div class="t-name">Neovim</div>
-            <div class="t-cat">Terminal Editor</div>
-          </div>
-          <div class="tech-item" style="--item-color:#000">
-            <div class="t-icon">🧠</div>
-            <div class="t-name">IntelliJ IDEA</div>
-            <div class="t-cat">IDE</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── CURRENT FOCUS ─────────────────────────────── -->
-    <section class="section obs">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-num">03</span>
-          <h2 class="section-title">CURRENT FOCUS</h2>
-          <div class="section-line"></div>
-        </div>
-
-        <div class="focus-grid">
-          <div class="focus-card">
-            <div class="fc-dir">drwxr-xr-x &nbsp;planout.ai/</div>
-            <div class="fc-name">Planout.ai</div>
-            <div class="fc-desc">AI-powered planning application — automating decisions so humans think less and build more.</div>
-            <div class="fc-tag">🤖 AI</div>
-          </div>
-          <div class="focus-card">
-            <div class="fc-dir">drwxr-xr-x &nbsp;kolosal-api/</div>
-            <div class="fc-name">Kolosal API</div>
-            <div class="fc-desc">High-performance REST API built with Rust + Axum. Speed-first, memory-safe, production-ready.</div>
-            <div class="fc-tag">🦀 Rust</div>
-          </div>
-          <div class="focus-card">
-            <div class="fc-dir">drwxr-xr-x &nbsp;open-source/</div>
-            <div class="fc-name">Open Source</div>
-            <div class="fc-desc">Contributing back to the community — 99 public repos and counting.</div>
-            <div class="fc-tag">🌍 OSS</div>
-          </div>
-          <div class="focus-card">
-            <div class="fc-dir">drwxr-xr-x &nbsp;system-design/</div>
-            <div class="fc-name">System Design</div>
-            <div class="fc-desc">Deep-diving distributed systems — consensus algorithms, fault tolerance, and scalable architectures.</div>
-            <div class="fc-tag">📐 Architecture</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── QUOTE ─────────────────────────────────────── -->
-    <section class="section obs">
-      <div class="container">
-        <div class="quote-block">
-          <blockquote>First, solve the problem. Then, write the code.</blockquote>
-          <p class="quote-attr">— ALLIANO'S PHILOSOPHY</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── CONNECT ───────────────────────────────────── -->
-    <section class="section obs">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-num">04</span>
-          <h2 class="section-title">CONNECT</h2>
-          <div class="section-line"></div>
-        </div>
-
-        <div class="connect-grid">
-          <a href="https://github.com/alliano" target="_blank" class="connect-item">
-            <div class="ci-icon">⌥</div>
-            <div>
-              <div class="ci-label">GitHub</div>
-              <div class="ci-value">@alliano</div>
-            </div>
-            <span class="ci-arrow">→</span>
-          </a>
-          <a href="https://www.linkedin.com/in/abdillah-kim-a97393225" target="_blank" class="connect-item">
-            <div class="ci-icon">🔗</div>
-            <div>
-              <div class="ci-label">LinkedIn</div>
-              <div class="ci-value">Abdillah Kim</div>
-            </div>
-            <span class="ci-arrow">→</span>
-          </a>
-          <a href="https://www.instagram.com/kim_anata_alliano" target="_blank" class="connect-item">
-            <div class="ci-icon">📸</div>
-            <div>
-              <div class="ci-label">Instagram</div>
-              <div class="ci-value">@kim_anata_alliano</div>
-            </div>
-            <span class="ci-arrow">→</span>
-          </a>
-          <a href="mailto:software.engginer.aliano@gmail.com" class="connect-item">
-            <div class="ci-icon">✉</div>
-            <div>
-              <div class="ci-label">Email</div>
-              <div class="ci-value">Gmail</div>
-            </div>
-            <span class="ci-arrow">→</span>
-          </a>
-          <a href="https://web.facebook.com/software.engginer.aliano/" target="_blank" class="connect-item">
-            <div class="ci-icon">𝑓</div>
-            <div>
-              <div class="ci-label">Facebook</div>
-              <div class="ci-value">software.engginer.aliano</div>
-            </div>
-            <span class="ci-arrow">→</span>
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <span style="color:var(--text-dim)">Built with </span><span>♥</span><span style="color:var(--text-dim)"> by Alliano — Indonesia 🇮🇩 — </span>
-      <span style="color:var(--accent)">while alive { eat(); sleep(); <strong>code();</strong> }</span>
+<!-- ── HERO ─────────────────────────── -->
+<section class="hero" id="top">
+  <div>
+    <div class="prompt-bar">
+      <span class="p-user">alliano</span>
+      <span class="p-at">@</span>
+      <span class="p-host">kolosal-ai</span>
+      <span class="p-col">:</span>
+      <span class="p-path">~/home</span>
+      <span class="p-sym">$</span>
+      <span class="p-cmd">whoami</span>
     </div>
-  </footer>
 
-  <script>
-    // Custom cursor
-    const cursor = document.getElementById('cursor');
-    const ring   = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    (function raf() {
-      rx += (mx - rx) * 0.15;
-      ry += (my - ry) * 0.15;
-      cursor.style.left = mx + 'px';
-      cursor.style.top  = my + 'px';
-      ring.style.left   = rx + 'px';
-      ring.style.top    = ry + 'px';
-      requestAnimationFrame(raf);
-    })();
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; });
-      el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; });
-    });
+    <h1 class="hero-name">
+      <span class="hash">#</span> ALLIANO
+    </h1>
 
-    // Intersection observer
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.obs').forEach(el => obs.observe(el));
-  </script>
+    <p class="hero-role">
+      <span>Senior Software Engineer</span> &amp; Linux Enthusiast
+    </p>
+
+    <div class="hero-divider"></div>
+
+    <p class="hero-bio">
+      Building high-performance systems from Indonesia 🇮🇩.<br>
+      Passionate about clean architecture, open source, and backend engineering.<br>
+      Currently shipping at <strong>Kolosal AI</strong>.
+    </p>
+
+    <div class="hero-meta">
+      <div class="meta-item"><span class="dot">▸</span> Indonesia 🇮🇩</div>
+      <div class="meta-item"><span class="dot">▸</span> Linux 🐧</div>
+      <div class="meta-item"><span class="dot">▸</span> Kolosal AI</div>
+      <div class="meta-item"><span class="dot">▸</span> 99 Repos · 31 Followers</div>
+    </div>
+
+    <div class="hero-btns">
+      <a href="https://github.com/alliano" target="_blank" class="btn btn-p">⌥ GitHub Profile</a>
+      <a href="https://www.linkedin.com/in/abdillah-kim-a97393225" target="_blank" class="btn btn-s">⌦ LinkedIn</a>
+      <a href="mailto:software.engginer.aliano@gmail.com" class="btn btn-s">✉ Email Me</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ─────────────────────────── -->
+<section id="about" class="obs">
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <h2 class="sec-title">ABOUT</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="term-win">
+    <div class="term-bar">
+      <div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div>
+      <div class="term-ttl">alliano — zsh — 80×24</div>
+    </div>
+    <div class="term-body">
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <span class="t-prompt">❯</span>
+        <span class="t-cmd">cat</span>
+        <span class="t-file">&nbsp;developer.rs</span>
+      </div>
+<pre style="font-family:var(--mono);font-size:12.5px;line-height:2;white-space:pre-wrap"><span class="t-ln">1</span>  <span class="t-kw">struct</span> <span class="t-ty">Developer</span> <span class="t-op">{</span>
+<span class="t-ln">2</span>      <span class="t-fn">name</span><span class="t-op">:</span>     <span class="t-st">"Alliano"</span><span class="t-op">,</span>        <span class="t-cm">// Abdillah Kim</span>
+<span class="t-ln">3</span>      <span class="t-fn">role</span><span class="t-op">:</span>     <span class="t-st">"Senior Software Engineer"</span><span class="t-op">,</span>
+<span class="t-ln">4</span>      <span class="t-fn">company</span><span class="t-op">:</span>  <span class="t-st">"Kolosal AI"</span><span class="t-op">,</span>
+<span class="t-ln">5</span>      <span class="t-fn">location</span><span class="t-op">:</span> <span class="t-st">"Indonesia 🇮🇩"</span><span class="t-op">,</span>
+<span class="t-ln">6</span>      <span class="t-fn">os</span><span class="t-op">:</span>       <span class="t-st">"Linux 🐧"</span><span class="t-op">,</span>
+<span class="t-ln">7</span>      <span class="t-fn">passion</span><span class="t-op">:</span>  <span class="t-nb">vec!</span><span class="t-op">[</span>
+<span class="t-ln">8</span>          <span class="t-st">"Clean Architecture"</span><span class="t-op">,</span>
+<span class="t-ln">9</span>          <span class="t-st">"High Performance Systems"</span><span class="t-op">,</span>
+<span class="t-ln">10</span>         <span class="t-st">"Open Source"</span><span class="t-op">,</span>
+<span class="t-ln">11</span>         <span class="t-st">"Backend Engineering"</span><span class="t-op">,</span>
+<span class="t-ln">12</span>     <span class="t-op">],</span>
+<span class="t-ln">13</span> <span class="t-op">}</span>
+</pre>
+      <div style="display:flex;gap:8px;margin-top:18px">
+        <span class="t-prompt">❯</span>
+        <span class="t-cmd">echo</span>
+        <span class="t-file">&nbsp;$PHILOSOPHY</span>
+      </div>
+      <div class="t-out">"First, solve the problem. Then, write the code."</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECH STACK ─────────────────────── -->
+<section id="stack" class="obs">
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <h2 class="sec-title">TECH STACK</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="tech-section-label">⚙️ &nbsp;BACKEND</div>
+  <div class="tech-grid">
+    <div class="tech-cell">
+      <div class="tc-icon">🦀</div>
+      <div class="tc-name">Rust</div>
+      <div class="tc-cat">Systems Language</div>
+      <div class="tc-accent" style="background:#de8f6e"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">☕</div>
+      <div class="tc-name">Java</div>
+      <div class="tc-cat">Enterprise</div>
+      <div class="tc-accent" style="background:#ed8b00"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">🍃</div>
+      <div class="tc-name">Spring Boot</div>
+      <div class="tc-cat">Java Framework</div>
+      <div class="tc-accent" style="background:#6db33f"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">⚡</div>
+      <div class="tc-name">Axum</div>
+      <div class="tc-cat">Rust Web Framework</div>
+      <div class="tc-accent" style="background:#de8f6e"></div>
+    </div>
+  </div>
+
+  <div class="tech-section-label">🌐 &nbsp;FRONTEND</div>
+  <div class="tech-grid">
+    <div class="tech-cell">
+      <div class="tc-icon">▲</div>
+      <div class="tc-name">Next.js</div>
+      <div class="tc-cat">React Framework</div>
+      <div class="tc-accent" style="background:#fff"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">𝑇𝑆</div>
+      <div class="tc-name">TypeScript</div>
+      <div class="tc-cat">Typed JavaScript</div>
+      <div class="tc-accent" style="background:#3178c6"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">⚛</div>
+      <div class="tc-name">React</div>
+      <div class="tc-cat">UI Library</div>
+      <div class="tc-accent" style="background:#61dafb"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">🌊</div>
+      <div class="tc-name">Tailwind CSS</div>
+      <div class="tc-cat">Utility-first CSS</div>
+      <div class="tc-accent" style="background:#38bdf8"></div>
+    </div>
+  </div>
+
+  <div class="tech-section-label">🗄️ &nbsp;DATA &amp; INFRA</div>
+  <div class="tech-grid">
+    <div class="tech-cell">
+      <div class="tc-icon">🐘</div>
+      <div class="tc-name">PostgreSQL</div>
+      <div class="tc-cat">Relational DB</div>
+      <div class="tc-accent" style="background:#336791"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">🐬</div>
+      <div class="tc-name">MySQL</div>
+      <div class="tc-cat">Relational DB</div>
+      <div class="tc-accent" style="background:#005c84"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">⚡</div>
+      <div class="tc-name">Redis</div>
+      <div class="tc-cat">In-memory Cache</div>
+      <div class="tc-accent" style="background:#dc382d"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">🐳</div>
+      <div class="tc-name">Docker</div>
+      <div class="tc-cat">Containerization</div>
+      <div class="tc-accent" style="background:#2ca5e0"></div>
+    </div>
+  </div>
+
+  <div class="tech-section-label">🛠️ &nbsp;TOOLS</div>
+  <div class="tech-grid">
+    <div class="tech-cell">
+      <div class="tc-icon">🐧</div>
+      <div class="tc-name">Linux</div>
+      <div class="tc-cat">Daily Driver OS</div>
+      <div class="tc-accent" style="background:#fcc624"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">⌥</div>
+      <div class="tc-name">Git</div>
+      <div class="tc-cat">Version Control</div>
+      <div class="tc-accent" style="background:#f05032"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">💚</div>
+      <div class="tc-name">Neovim</div>
+      <div class="tc-cat">Terminal Editor</div>
+      <div class="tc-accent" style="background:#57a143"></div>
+    </div>
+    <div class="tech-cell">
+      <div class="tc-icon">🧠</div>
+      <div class="tc-name">IntelliJ IDEA</div>
+      <div class="tc-cat">IDE</div>
+      <div class="tc-accent" style="background:#fe2020"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CURRENT FOCUS ─────────────────── -->
+<section id="focus" class="obs">
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <h2 class="sec-title">CURRENT FOCUS</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="focus-grid">
+    <div class="focus-card">
+      <div class="fc-dir">drwxr-xr-x &nbsp;planout.ai/</div>
+      <div class="fc-name">Planout.ai</div>
+      <div class="fc-desc">AI-powered planning application — automating decisions so humans think less and build more.</div>
+      <div class="fc-tag">🤖 AI</div>
+    </div>
+    <div class="focus-card">
+      <div class="fc-dir">drwxr-xr-x &nbsp;kolosal-api/</div>
+      <div class="fc-name">Kolosal API</div>
+      <div class="fc-desc">High-performance REST API built with Rust + Axum. Speed-first, memory-safe, production-ready.</div>
+      <div class="fc-tag">🦀 Rust</div>
+    </div>
+    <div class="focus-card">
+      <div class="fc-dir">drwxr-xr-x &nbsp;open-source/</div>
+      <div class="fc-name">Open Source</div>
+      <div class="fc-desc">Contributing back to the community — 99 public repos and counting.</div>
+      <div class="fc-tag">🌍 OSS</div>
+    </div>
+    <div class="focus-card">
+      <div class="fc-dir">drwxr-xr-x &nbsp;system-design/</div>
+      <div class="fc-name">System Design</div>
+      <div class="fc-desc">Deep-diving distributed systems — consensus algorithms, fault tolerance, scalable architectures.</div>
+      <div class="fc-tag">📐 Architecture</div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px">
+    <div class="quote-block">
+      <blockquote>
+        <strong>First, solve the problem.</strong> Then, write the code.
+      </blockquote>
+      <cite>— ALLIANO'S PHILOSOPHY</cite>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONNECT ───────────────────────── -->
+<section id="connect" class="obs">
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <h2 class="sec-title">CONNECT</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="connect-list">
+    <a href="https://github.com/alliano" target="_blank" class="connect-row">
+      <span class="cr-icon">⌥</span>
+      <div class="cr-handle-wrap">
+        <div class="cr-platform">GITHUB</div>
+        <div class="cr-handle">@alliano</div>
+      </div>
+      <span class="cr-arrow">→</span>
+    </a>
+    <a href="https://www.linkedin.com/in/abdillah-kim-a97393225" target="_blank" class="connect-row">
+      <span class="cr-icon">🔗</span>
+      <div class="cr-handle-wrap">
+        <div class="cr-platform">LINKEDIN</div>
+        <div class="cr-handle">Abdillah Kim</div>
+      </div>
+      <span class="cr-arrow">→</span>
+    </a>
+    <a href="https://www.instagram.com/kim_anata_alliano" target="_blank" class="connect-row">
+      <span class="cr-icon">📸</span>
+      <div class="cr-handle-wrap">
+        <div class="cr-platform">INSTAGRAM</div>
+        <div class="cr-handle">@kim_anata_alliano</div>
+      </div>
+      <span class="cr-arrow">→</span>
+    </a>
+    <a href="mailto:software.engginer.aliano@gmail.com" class="connect-row">
+      <span class="cr-icon">✉</span>
+      <div class="cr-handle-wrap">
+        <div class="cr-platform">EMAIL</div>
+        <div class="cr-handle">software.engginer.aliano@gmail.com</div>
+      </div>
+      <span class="cr-arrow">→</span>
+    </a>
+    <a href="https://web.facebook.com/software.engginer.aliano/" target="_blank" class="connect-row">
+      <span class="cr-icon">𝑓</span>
+      <div class="cr-handle-wrap">
+        <div class="cr-platform">FACEBOOK</div>
+        <div class="cr-handle">software.engginer.aliano</div>
+      </div>
+      <span class="cr-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ───────────────────────── -->
+<footer>
+  <div>Built with ♥ by Alliano — Indonesia 🇮🇩</div>
+  <div class="f-status">
+    <div class="f-dot"></div>
+    <span>while alive { eat(); sleep(); <span style="color:var(--nc);font-weight:700">code();</span> }</span>
+  </div>
+  <div id="uptime" style="color:var(--txt3)"></div>
+</footer>
+
+</div><!-- /page -->
+
+<script>
+// ── NODE NETWORK ─────────────────────────────────────────
+const canvas = document.getElementById('nc');
+const ctx    = canvas.getContext('2d');
+let W, H, nodes = [];
+const mouse = { x: -9999, y: -9999 };
+
+const COLS        = ['#00d9ff','#0066ff','#00ff88','#00aacc','#004488'];
+const NODE_COUNT  = 100;
+const MAX_DIST    = 155;
+const MOUSE_R     = 210;
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function init() {
+  nodes = Array.from({ length: NODE_COUNT }, () => ({
+    x:  Math.random() * W,
+    y:  Math.random() * H,
+    vx: (Math.random() - .5) * .38,
+    vy: (Math.random() - .5) * .38,
+    r:  Math.random() * 1.8 + 1,
+    color: COLS[Math.floor(Math.random() * COLS.length)],
+    pulse: Math.random() * Math.PI * 2,
+    ps:    .018 + Math.random() * .018,
+  }));
+}
+
+function tick() {
+  ctx.clearRect(0, 0, W, H);
+
+  for (const n of nodes) {
+    n.x  += n.vx;
+    n.y  += n.vy;
+    n.pulse += n.ps;
+    if (n.x < 0 || n.x > W) n.vx *= -1;
+    if (n.y < 0 || n.y > H) n.vy *= -1;
+
+    // mouse repel
+    const dx = n.x - mouse.x, dy = n.y - mouse.y;
+    const d  = Math.sqrt(dx*dx + dy*dy);
+    if (d < MOUSE_R && d > 1) {
+      const f = (MOUSE_R - d) / MOUSE_R * .55;
+      n.vx += dx/d * f * .055;
+      n.vy += dy/d * f * .055;
+      const sp = Math.sqrt(n.vx*n.vx + n.vy*n.vy);
+      if (sp > 1.6) { n.vx = n.vx/sp*1.6; n.vy = n.vy/sp*1.6; }
+    }
+  }
+
+  // node-to-node lines
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i+1; j < nodes.length; j++) {
+      const a = nodes[i], b = nodes[j];
+      const dx = a.x-b.x, dy = a.y-b.y;
+      const d  = Math.sqrt(dx*dx+dy*dy);
+      if (d < MAX_DIST) {
+        const alpha = (1 - d/MAX_DIST) * .45;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.strokeStyle = `rgba(0,160,210,${alpha})`;
+        ctx.lineWidth   = .55;
+        ctx.stroke();
+      }
+    }
+  }
+
+  // mouse-to-node lines
+  for (const n of nodes) {
+    const dx = n.x-mouse.x, dy = n.y-mouse.y;
+    const d  = Math.sqrt(dx*dx+dy*dy);
+    if (d < MOUSE_R) {
+      const alpha = (1 - d/MOUSE_R) * .85;
+      ctx.beginPath();
+      ctx.moveTo(mouse.x, mouse.y);
+      ctx.lineTo(n.x, n.y);
+      ctx.strokeStyle = `rgba(0,217,255,${alpha})`;
+      ctx.lineWidth   = .8;
+      ctx.stroke();
+    }
+  }
+
+  // nodes
+  for (const n of nodes) {
+    const g  = .5 + Math.sin(n.pulse) * .5;
+    const r  = n.r + g * .7;
+
+    // glow
+    const gr = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, r*5.5);
+    gr.addColorStop(0, hexAlpha(n.color, .3 * g));
+    gr.addColorStop(1, 'transparent');
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, r*5.5, 0, Math.PI*2);
+    ctx.fillStyle = gr;
+    ctx.fill();
+
+    // core dot
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, r, 0, Math.PI*2);
+    ctx.fillStyle = n.color;
+    ctx.fill();
+  }
+
+  requestAnimationFrame(tick);
+}
+
+function hexAlpha(hex, a) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+window.addEventListener('mousemove', e => { mouse.x=e.clientX; mouse.y=e.clientY; });
+window.addEventListener('resize',   () => { resize(); init(); });
+resize(); init(); tick();
+
+// ── CURSOR ──────────────────────────────────────────────
+const cur=document.getElementById('cur');
+const cur2=document.getElementById('cur2');
+let cx=0,cy=0,cx2=0,cy2=0;
+document.addEventListener('mousemove',e=>{cx=e.clientX;cy=e.clientY});
+(function r(){
+  cx2+=(cx-cx2)*.12; cy2+=(cy-cy2)*.12;
+  cur.style.left=cx+'px';  cur.style.top=cy+'px';
+  cur2.style.left=cx2+'px';cur2.style.top=cy2+'px';
+  requestAnimationFrame(r);
+})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.transform='translate(-50%,-50%) scale(2.2)';cur2.style.opacity='0'});
+  el.addEventListener('mouseleave',()=>{cur.style.transform='translate(-50%,-50%) scale(1)';cur2.style.opacity='1'});
+});
+
+// ── SCROLL REVEAL ────────────────────────────────────────
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v')}),{threshold:.07});
+document.querySelectorAll('.obs').forEach(el=>io.observe(el));
+
+// ── UPTIME ──────────────────────────────────────────────
+const t0=Date.now();
+function uptime(){
+  const s=Math.floor((Date.now()-t0)/1000);
+  const h=String(Math.floor(s/3600)).padStart(2,'0');
+  const m=String(Math.floor(s%3600/60)).padStart(2,'0');
+  const sec=String(s%60).padStart(2,'0');
+  const el=document.getElementById('uptime');
+  if(el) el.textContent=`uptime ${h}:${m}:${sec}`;
+  setTimeout(uptime,1000);
+}
+uptime();
+</script>
 </body>
 </html>
