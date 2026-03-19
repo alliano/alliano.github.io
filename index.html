@@ -66,7 +66,13 @@ body{
 /* ── HERO ── */
 .hero{
   min-height:100vh;display:flex;align-items:center;
-  padding:100px 56px 72px;
+  justify-content:center;
+  padding:100px 48px 72px;
+}
+.hero > .inner-wrap,
+.hero > div {
+  max-width:860px;
+  width:100%;
 }
 
 .prompt-bar{
@@ -145,8 +151,13 @@ body{
 
 /* ── SECTION ── */
 section{
-  padding:80px 56px;
+  padding:80px 48px;
   border-top:1px solid var(--c0);
+}
+section > *:not(style) {
+  max-width:860px;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .sec-head{
@@ -313,11 +324,15 @@ section{
 /* ── FOOTER ── */
 footer{
   border-top:1px solid var(--c0);
-  padding:26px 56px;
+  padding:26px 32px;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(11,15,20,.95);
+}
+.footer-inner{
+  max-width:860px;width:100%;
   display:flex;align-items:center;justify-content:space-between;
   flex-wrap:wrap;gap:12px;
   font-size:11px;color:var(--txt2);
-  background:rgba(11,15,20,.95);
 }
 .f-status{display:flex;align-items:center;gap:8px}
 .f-dot{width:6px;height:6px;border-radius:50%;background:var(--ng);box-shadow:0 0 6px var(--ng);animation:blink 2s ease-in-out infinite}
@@ -329,7 +344,8 @@ footer{
 .obs.v{opacity:1;transform:none}
 
 @media(max-width:640px){
-  .hero,section,footer{padding-left:20px;padding-right:20px}
+  .hero,section{padding-left:20px;padding-right:20px}
+  footer{padding-left:20px;padding-right:20px}
   .hero{padding-top:80px}
   .tech-grid{grid-template-columns:repeat(2,1fr)}
   .focus-grid{grid-template-columns:1fr}
@@ -651,12 +667,14 @@ footer{
 
 <!-- ── FOOTER ───────────────────────── -->
 <footer>
+  <div class="footer-inner">
   <div>Built with ♥ by Alliano — Indonesia 🇮🇩</div>
   <div class="f-status">
     <div class="f-dot"></div>
     <span>while alive { eat(); sleep(); <span style="color:var(--nc);font-weight:700">code();</span> }</span>
   </div>
   <div id="uptime" style="color:var(--txt3)"></div>
+  </div>
 </footer>
 
 </div><!-- /page -->
