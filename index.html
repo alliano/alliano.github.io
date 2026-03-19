@@ -293,7 +293,19 @@ section > *:not(style) {
   transform:scaleX(0);transform-origin:left;
   transition:transform .3s ease;
 }
-.tc-icon{font-size:18px;margin-bottom:8px}
+.tc-icon{
+  height:20px;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.tc-icon img{
+  width:18px;
+  height:18px;
+  object-fit:contain;
+  display:block;
+}
 .tc-name{font-size:12px;font-weight:700;color:#fff}
 .tc-cat {font-size:10px;color:var(--txt2);letter-spacing:.5px;margin-top:2px}
 
@@ -322,10 +334,16 @@ section > *:not(style) {
 .fc-name{font-size:14px;font-weight:700;color:#fff}
 .fc-desc{font-size:12px;color:var(--txt2);margin-top:8px;line-height:1.7}
 .fc-tag{
-  display:inline-block;font-size:10px;
+  display:inline-flex;align-items:center;gap:6px;font-size:10px;
   padding:2px 10px;border:1px solid var(--c0);
   color:var(--nc);margin-top:14px;border-radius:3px;
   background:rgba(0,217,255,.05);
+}
+.fc-tag img{
+  width:11px;
+  height:11px;
+  object-fit:contain;
+  display:block;
 }
 
 /* ── QUOTE ── */
@@ -370,7 +388,9 @@ section > *:not(style) {
 .connect-row:hover .cr-icon{text-shadow:0 0 16px var(--nc)}
 .connect-row:hover .cr-handle{color:var(--nc)}
 .connect-row:hover .cr-arrow{opacity:1;transform:translateX(0)}
-.cr-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0;transition:text-shadow .2s}
+.cr-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0;transition:text-shadow .2s;display:flex;align-items:center;justify-content:center}
+.cr-icon img,.cr-icon svg{width:18px;height:18px;object-fit:contain;display:block;transition:filter .2s}
+.connect-row:hover .cr-icon img,.connect-row:hover .cr-icon svg{filter:drop-shadow(0 0 6px var(--nc))}
 .cr-platform{font-size:10px;letter-spacing:1.5px;color:var(--txt3)}
 .cr-handle{font-size:13px;font-weight:700;color:var(--txt);transition:color .2s}
 .cr-handle-wrap{flex:1}
@@ -518,25 +538,25 @@ footer{
   <div class="tech-section-label">⚙️ &nbsp;BACKEND</div>
   <div class="tech-grid">
     <div class="tech-cell">
-      <div class="tc-icon">🦀</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/rust/ff7a3d" alt="Rust"/></div>
       <div class="tc-name">Rust</div>
       <div class="tc-cat">Systems Language</div>
       <div class="tc-accent" style="background:#de8f6e"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">☕</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/openjdk/f89820" alt="Java"/></div>
       <div class="tc-name">Java</div>
       <div class="tc-cat">Enterprise</div>
       <div class="tc-accent" style="background:#ed8b00"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">🍃</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/springboot" alt="Spring Boot"/></div>
       <div class="tc-name">Spring Boot</div>
       <div class="tc-cat">Java Framework</div>
       <div class="tc-accent" style="background:#6db33f"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">⚡</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/rust/ff9b54" alt="Axum"/></div>
       <div class="tc-name">Axum</div>
       <div class="tc-cat">Rust Web Framework</div>
       <div class="tc-accent" style="background:#de8f6e"></div>
@@ -546,25 +566,25 @@ footer{
   <div class="tech-section-label">🌐 &nbsp;FRONTEND</div>
   <div class="tech-grid">
     <div class="tech-cell">
-      <div class="tc-icon">▲</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/nextdotjs/ffffff" alt="Next.js"/></div>
       <div class="tc-name">Next.js</div>
       <div class="tc-cat">React Framework</div>
       <div class="tc-accent" style="background:#fff"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">𝑇𝑆</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/typescript" alt="TypeScript"/></div>
       <div class="tc-name">TypeScript</div>
       <div class="tc-cat">Typed JavaScript</div>
       <div class="tc-accent" style="background:#3178c6"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">⚛</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/react" alt="React"/></div>
       <div class="tc-name">React</div>
       <div class="tc-cat">UI Library</div>
       <div class="tc-accent" style="background:#61dafb"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">🌊</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/tailwindcss" alt="Tailwind CSS"/></div>
       <div class="tc-name">Tailwind CSS</div>
       <div class="tc-cat">Utility-first CSS</div>
       <div class="tc-accent" style="background:#38bdf8"></div>
@@ -574,25 +594,25 @@ footer{
   <div class="tech-section-label">🗄️ &nbsp;DATA &amp; INFRA</div>
   <div class="tech-grid">
     <div class="tech-cell">
-      <div class="tc-icon">🐘</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/postgresql" alt="PostgreSQL"/></div>
       <div class="tc-name">PostgreSQL</div>
       <div class="tc-cat">Relational DB</div>
       <div class="tc-accent" style="background:#336791"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">🐬</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/mysql" alt="MySQL"/></div>
       <div class="tc-name">MySQL</div>
       <div class="tc-cat">Relational DB</div>
       <div class="tc-accent" style="background:#005c84"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">⚡</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/redis" alt="Redis"/></div>
       <div class="tc-name">Redis</div>
       <div class="tc-cat">In-memory Cache</div>
       <div class="tc-accent" style="background:#dc382d"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">🐳</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/docker" alt="Docker"/></div>
       <div class="tc-name">Docker</div>
       <div class="tc-cat">Containerization</div>
       <div class="tc-accent" style="background:#2ca5e0"></div>
@@ -602,25 +622,25 @@ footer{
   <div class="tech-section-label">🛠️ &nbsp;TOOLS</div>
   <div class="tech-grid">
     <div class="tech-cell">
-      <div class="tc-icon">🐧</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/linux" alt="Linux"/></div>
       <div class="tc-name">Linux</div>
       <div class="tc-cat">Daily Driver OS</div>
       <div class="tc-accent" style="background:#fcc624"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">⌥</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/git" alt="Git"/></div>
       <div class="tc-name">Git</div>
       <div class="tc-cat">Version Control</div>
       <div class="tc-accent" style="background:#f05032"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">💚</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/neovim" alt="Neovim"/></div>
       <div class="tc-name">Neovim</div>
       <div class="tc-cat">Terminal Editor</div>
       <div class="tc-accent" style="background:#57a143"></div>
     </div>
     <div class="tech-cell">
-      <div class="tc-icon">🧠</div>
+      <div class="tc-icon"><img src="https://cdn.simpleicons.org/intellijidea/ff4ea3" alt="IntelliJ IDEA"/></div>
       <div class="tc-name">IntelliJ IDEA</div>
       <div class="tc-cat">IDE</div>
       <div class="tc-accent" style="background:#fe2020"></div>
@@ -641,25 +661,25 @@ footer{
       <div class="fc-dir">drwxr-xr-x &nbsp;planout.ai/</div>
       <div class="fc-name">Planout.ai</div>
       <div class="fc-desc">AI-powered planning application — automating decisions so humans think less and build more.</div>
-      <div class="fc-tag">🤖 AI</div>
+      <div class="fc-tag"><img src="https://cdn.simpleicons.org/tensorflow/00d9ff" alt="AI"/>AI</div>
     </div>
     <div class="focus-card">
       <div class="fc-dir">drwxr-xr-x &nbsp;kolosal-api/</div>
       <div class="fc-name">Kolosal API</div>
       <div class="fc-desc">High-performance REST API built with Rust + Axum. Speed-first, memory-safe, production-ready.</div>
-      <div class="fc-tag">🦀 Rust</div>
+      <div class="fc-tag"><img src="https://cdn.simpleicons.org/rust/ff7a3d" alt="Rust"/>Rust</div>
     </div>
     <div class="focus-card">
       <div class="fc-dir">drwxr-xr-x &nbsp;open-source/</div>
       <div class="fc-name">Open Source</div>
       <div class="fc-desc">Contributing back to the community — 99 public repos and counting.</div>
-      <div class="fc-tag">🌍 OSS</div>
+      <div class="fc-tag"><img src="https://cdn.simpleicons.org/github/ffffff" alt="OSS"/>OSS</div>
     </div>
     <div class="focus-card">
       <div class="fc-dir">drwxr-xr-x &nbsp;system-design/</div>
       <div class="fc-name">System Design</div>
       <div class="fc-desc">Deep-diving distributed systems — consensus algorithms, fault tolerance, scalable architectures.</div>
-      <div class="fc-tag">📐 Architecture</div>
+      <div class="fc-tag"><img src="https://cdn.simpleicons.org/kubernetes/326ce5" alt="Architecture"/>Architecture</div>
     </div>
   </div>
 
@@ -683,7 +703,7 @@ footer{
 
   <div class="connect-list">
     <a href="https://github.com/alliano" target="_blank" class="connect-row">
-      <span class="cr-icon">⌥</span>
+      <span class="cr-icon"><img src="https://cdn.simpleicons.org/github/ffffff" alt="GitHub"/></span>
       <div class="cr-handle-wrap">
         <div class="cr-platform">GITHUB</div>
         <div class="cr-handle">@alliano</div>
@@ -691,7 +711,7 @@ footer{
       <span class="cr-arrow">→</span>
     </a>
     <a href="https://www.linkedin.com/in/abdillah-kim-a97393225" target="_blank" class="connect-row">
-      <span class="cr-icon">🔗</span>
+      <span class="cr-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="#5ba3e0"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></span>
       <div class="cr-handle-wrap">
         <div class="cr-platform">LINKEDIN</div>
         <div class="cr-handle">Abdillah Kim</div>
@@ -699,7 +719,7 @@ footer{
       <span class="cr-arrow">→</span>
     </a>
     <a href="https://www.instagram.com/kim_anata_alliano" target="_blank" class="connect-row">
-      <span class="cr-icon">📸</span>
+      <span class="cr-icon"><img src="https://cdn.simpleicons.org/instagram/e4405f" alt="Instagram"/></span>
       <div class="cr-handle-wrap">
         <div class="cr-platform">INSTAGRAM</div>
         <div class="cr-handle">@kim_anata_alliano</div>
@@ -707,7 +727,7 @@ footer{
       <span class="cr-arrow">→</span>
     </a>
     <a href="mailto:software.engginer.aliano@gmail.com" class="connect-row">
-      <span class="cr-icon">✉</span>
+      <span class="cr-icon"><img src="https://cdn.simpleicons.org/gmail/ea4335" alt="Email"/></span>
       <div class="cr-handle-wrap">
         <div class="cr-platform">EMAIL</div>
         <div class="cr-handle">software.engginer.aliano@gmail.com</div>
@@ -715,7 +735,7 @@ footer{
       <span class="cr-arrow">→</span>
     </a>
     <a href="https://web.facebook.com/software.engginer.aliano/" target="_blank" class="connect-row">
-      <span class="cr-icon">𝑓</span>
+      <span class="cr-icon"><img src="https://cdn.simpleicons.org/facebook/1877f2" alt="Facebook"/></span>
       <div class="cr-handle-wrap">
         <div class="cr-platform">FACEBOOK</div>
         <div class="cr-handle">software.engginer.aliano</div>
